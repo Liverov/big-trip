@@ -263,7 +263,7 @@ const createDayEventsListTemplate = () => {
   );
 };
 
-const render = (container, template, place) => {
+const render = (container, template, place = `afterbegin`) => {
   container.insertAdjacentHTML(place, template);
 };
 
