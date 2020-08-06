@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Антон Ливеров](https://up.htmlacademy.ru/ecmascript/12/user/142124).
-* Наставник: `Неизвестно`.
+* Наставник: [Игорь Тараканов](https://htmlacademy.ru/profile/id487569).
 
 ---
 
