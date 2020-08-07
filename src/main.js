@@ -1,10 +1,10 @@
-import {tripInfo} from './view/trip-info.js';
-import {siteMenu} from './view/site-menu.js';
-import {addFirstEvent} from './view/add-first-event.js';
-import {filter} from './view/filter.js';
-import {sort} from './view/sort.js';
-import {days} from './view/days.js';
-import {daysEvents} from './view/days-events.js';
+import {createTripInfoTemplate} from './view/trip-info.js';
+import {createSiteMenuTemplate} from './view/site-menu.js';
+import {addFirstEventTemaplte} from './view/add-first-event.js';
+import {createFilterTemplate} from './view/filter.js';
+import {createSortTemplate} from './view/sort.js';
+import {createDaysItemTemplate} from './view/days.js';
+import {createDaysEventsTemplate} from './view/days-events.js';
 
 const DAYS_COUNT = 3;
 const EVENTS_COUNT = 3;
@@ -19,20 +19,20 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-render(siteTripInfoElement, tripInfo(), `afterbegin`);
-render(siteControlsElement, siteMenu(), `afterbegin`);
-render(siteControlsElement, filter(), `beforeend`);
-render(tripEventsElement, addFirstEvent(), `afterbegin`);
-render(tripEventsElement, sort(), `beforeend`);
+render(siteTripInfoElement, createTripInfoTemplate(), `afterbegin`);
+render(siteControlsElement, createSiteMenuTemplate(), `afterbegin`);
+render(siteControlsElement, createFilterTemplate(), `beforeend`);
+render(tripEventsElement, addFirstEventTemaplte(), `afterbegin`);
+render(tripEventsElement, createSortTemplate(), `beforeend`);
 
 const tripDaysElement = siteMainElement.querySelector(`.trip-days`);
 
 for (let i = 0; i < DAYS_COUNT; i++) {
-  render(tripDaysElement, days(), `afterbegin`);
+  render(tripDaysElement, createDaysItemTemplate(), `afterbegin`);
 
   const tripDaysEventsListElement = tripDaysElement.querySelector(`.trip-events__list`);
 
   for (let j = 0; j < EVENTS_COUNT; j++) {
-    render(tripDaysEventsListElement, daysEvents(), `afterbegin`);
+    render(tripDaysEventsListElement, createDaysEventsTemplate(), `afterbegin`);
   }
 }

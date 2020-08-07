@@ -1,4 +1,4 @@
-export const daysEvents = () => {
+export const createDaysEventsTemplate = () => {
   return (
     `<li class="trip-events__item">
       <div class="event">

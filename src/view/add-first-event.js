@@ -1,4 +1,4 @@
-export const addFirstEvent = () => {
+export const addFirstEventTemaplte = () => {
   return (
     `<form class="trip-events__item  event  event--edit" action="#" method="post">
       <header class="event__header">

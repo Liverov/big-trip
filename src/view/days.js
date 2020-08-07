@@ -1,15 +1,15 @@
 const siteMainElement = document.querySelector(`.page-main`);
 const tripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
-const createDayItemTemplate = () => {
+const createDaysTemplate = () => {
   return (
     `<ul class="trip-days"></ul>`
   );
 };
 
-tripEventsElement.insertAdjacentHTML(`beforeend`, createDayItemTemplate());
+tripEventsElement.insertAdjacentHTML(`beforeend`, createDaysTemplate());
 
-export const days = () => {
+export const createDaysItemTemplate = () => {
   return (
     `<li class="trip-days__item  day">
       <div class="day__info">
