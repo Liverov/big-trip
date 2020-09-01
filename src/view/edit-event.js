@@ -1,19 +1,20 @@
 import {
   getfullPriceEvent,
-  getDateToFullFormat
+  getDateToFullFormat,
+  createElement
 } from '../utils.js';
 
-export const createEditEventTemplate = (firstEditEvent) => {
+const createEditEventTemplate = (event) => {
 
   const {
     eventType = `Flight`,
-    offers,
+    offers = [],
     price = 0,
     destination = ``,
-    startDate,
-    endDate,
-    isFavorite
-  } = firstEditEvent;
+    startDate = new Date(),
+    endDate = (new Date() + 1),
+    isFavorite = false
+  } = event;
 
   const waypointTypes = [
     {
@@ -101,8 +102,7 @@ export const createEditEventTemplate = (firstEditEvent) => {
       </div>`).join(``);
   };
 
-  return `
-  <li class="trip-events__item">
+  return `<li class="trip-events__item">
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -183,6 +183,28 @@ export const createEditEventTemplate = (firstEditEvent) => {
         </section>
       </section>
     </form>
-  </li>
-  `;
+  </li>`;
 };
+
+export default class AddEditEvent {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createEditEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
