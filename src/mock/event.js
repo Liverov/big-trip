@@ -185,10 +185,11 @@ export const generateEvent = () => {
   const photos = generatePhotos();
   const price = Math.ceil(getRandomInt(10, 300));
 
-  const startDate = generateDate();
+  let startDate = generateDate();
   let endDate = generateDate();
 
   while (startDate > endDate) {
+    startDate = generateDate();
     endDate = generateDate();
   }
 

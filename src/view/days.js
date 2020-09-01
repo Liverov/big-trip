@@ -1,16 +1,17 @@
-import {createListEventsTemplate} from './events.js';
+import {createElement} from '../utils.js';
+// import Events from './events.js';
 
-const siteMainElement = document.querySelector(`.page-main`);
-const tripEventsElement = siteMainElement.querySelector(`.trip-events`);
+// const siteMainElement = document.querySelector(`.page-main`);
+// const tripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
-const createDaysTemplate = () => {
-  return (`<ul class="trip-days"></ul>`);
-};
+// const createDaysTemplate = () => {
+//   return (`<ul class="trip-days"></ul>`);
+// };
 
-tripEventsElement.insertAdjacentHTML(`beforeend`, createDaysTemplate());
+// tripEventsElement.insertAdjacentHTML(`beforeend`, createDaysTemplate());
 
 let dayCounter = 0;
-export const createDaysItemTemplate = (startDateEvent, listEvents) => {
+const createDaysItemTemplate = (startDateEvent) => {
   dayCounter++;
 
   return (
@@ -22,10 +23,29 @@ export const createDaysItemTemplate = (startDateEvent, listEvents) => {
         ${startDateEvent.toLocaleString(`EN-GB`, {day: `numeric`})}
         </time>
       </div>
-
-      <ul class="trip-events__list">
-      ${createListEventsTemplate(listEvents)}
-      </ul>
     </li>`
   );
 };
+
+export default class Days {
+  constructor(startDate) {
+    this._startDate = startDate;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createDaysItemTemplate(this._startDate);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
