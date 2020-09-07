@@ -28,7 +28,6 @@ export const getEventDuration = (startDate, endDate) => {
   };
 };
 
-// На будущее
 export const getfullPriceEvent = (price, offers) => {
   let fullPrice = price;
   offers.filter((obj) => obj.isActive).map((obj) => {
