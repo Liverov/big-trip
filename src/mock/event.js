@@ -1,4 +1,4 @@
-import {getRandomInt} from '../utils.js';
+import {getRandomInt} from '../utils/common.js';
 
 const MAX_RANDOM_DESCRIPTION = 4;
 const MAX_RANDOM_PHOTOS = 5;

@@ -1,8 +1,9 @@
 import {
   getfullPriceEvent,
-  getDateToFullFormat,
-  createElement
-} from '../utils.js';
+  getDateToFullFormat
+} from '../utils/event.js';
+import AbstractView from './abstract.js';
+
 
 const createEditEventTemplate = (event) => {
 
@@ -70,7 +71,7 @@ const createEditEventTemplate = (event) => {
   ];
 
   const showFullEventOffers = () => {
-    return offers.filter((offer) => offer.isActive).map((offer) =>
+    return offers.map((offer) =>
       `<div class="event__offer-selector">
         <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.shortName}-1" type="checkbox" name="event-offer-${offer.shortName}" ${offer.isActive ? `checked=""` : ``} >
         <label class="event__offer-label" for="event-offer-${offer.shortName}-1">
@@ -186,25 +187,24 @@ const createEditEventTemplate = (event) => {
   </li>`;
 };
 
-export default class AddEditEvent {
+export default class AddEditEvent extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createEditEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
