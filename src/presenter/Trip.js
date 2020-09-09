@@ -128,7 +128,7 @@ export default class Trip {
       return;
     }
 
-    for (let i = 0; i < this._events.length - 1; i++) {
+    for (let i = 0; i < this._events.length; i++) {
       if (getDateInDayMonth(this._events[i].startDate) !== getDateInDayMonth(this._events[i + 1].startDate)) {
         const dayMonth = getDateInDayMonth(this._events[i].startDate);
         const startDateEvent = this._events[i].startDate;
