@@ -1,11 +1,13 @@
 import {
   getDateInHoursMinutes,
-  getEventDuration,
-  getfullPriceEvent,
-  createElement
-} from '../utils.js';
+  getEventDuration
+} from '../utils/event.js';
+import AbstractView from './abstract.js';
 
 const createListEventsTemplate = (event) => {
+
+  const OFFERS_LIMIT = 3;
+
   const {
     eventType,
     destination,
@@ -33,7 +35,7 @@ const createListEventsTemplate = (event) => {
         <span class="event__offer-title">${offer.name}</span>
           +
           €&nbsp;<span class="event__offer-price">${offer.cost}</span>
-      </li>`).slice(0, 3).join(``);
+      </li>`).slice(0, OFFERS_LIMIT).join(``);
   };
 
   return `<li class="trip-events__item">
@@ -54,7 +56,7 @@ const createListEventsTemplate = (event) => {
         <p class="event__duration">${showEventDuration()}</p>
       </div>
       <p class="event__price">
-        €&nbsp;<span class="event__price-value">${getfullPriceEvent(price, offers)}</span>
+        €&nbsp;<span class="event__price-value">${price}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
@@ -67,25 +69,24 @@ const createListEventsTemplate = (event) => {
   </li>`;
 };
 
-export default class Events {
-  constructor(events) {
-    this._element = null;
-    this._events = events;
+export default class Events extends AbstractView {
+  constructor(event) {
+    super();
+    this._event = event;
+    this._editClickHandler = this._editClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createListEventsTemplate(this._events);
+    return createListEventsTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _editClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
   }
 }

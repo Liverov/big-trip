@@ -1,23 +1,15 @@
-import {createElement} from '../utils.js';
-// import Events from './events.js';
-
-// const siteMainElement = document.querySelector(`.page-main`);
-// const tripEventsElement = siteMainElement.querySelector(`.trip-events`);
-
-// const createDaysTemplate = () => {
-//   return (`<ul class="trip-days"></ul>`);
-// };
-
-// tripEventsElement.insertAdjacentHTML(`beforeend`, createDaysTemplate());
+import AbstractView from './abstract.js';
 
 let dayCounter = 0;
+
 const createDaysItemTemplate = (startDateEvent) => {
-  dayCounter++;
+
+  dayCounter = (startDateEvent) ? dayCounter + 1 : 0;
 
   return (
     `<li class="trip-days__item  day">
       <div class="day__info">
-        <span class="day__counter">${dayCounter}</span>
+        <span class="day__counter">${(startDateEvent) ? dayCounter : ``}</span>
         <time class="day__date" datetime="2019-03-18">
         ${startDateEvent.toLocaleString(`EN-GB`, {month: `short`})} 
         ${startDateEvent.toLocaleString(`EN-GB`, {day: `numeric`})}
@@ -27,25 +19,13 @@ const createDaysItemTemplate = (startDateEvent) => {
   );
 };
 
-export default class Days {
+export default class Days extends AbstractView {
   constructor(startDate) {
+    super();
     this._startDate = startDate;
-    this._element = null;
   }
 
   getTemplate() {
     return createDaysItemTemplate(this._startDate);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

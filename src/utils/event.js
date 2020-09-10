@@ -1,35 +1,3 @@
-export const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforened`
-};
-
-export const renderElement = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
-
-export const getRandomInt = (a = 1, b = 0) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
 export const getDateToFullFormat = (humanDate) => {
   return humanDate.toLocaleString(`en-GB`, {day: `numeric`, month: `numeric`, year: `2-digit`, hour: `numeric`, minute: `numeric`});
 };
@@ -55,7 +23,8 @@ export const getEventDuration = (startDate, endDate) => {
   return {
     days,
     minutes,
-    hours
+    hours,
+    diffMs
   };
 };
 
@@ -65,4 +34,12 @@ export const getfullPriceEvent = (price, offers) => {
     fullPrice += obj.cost;
   });
   return fullPrice;
+};
+
+export const sortTime = (dateA, dateB) => {
+  return getEventDuration(dateA.startDate, dateA.endDate).diffMs - getEventDuration(dateB.startDate, dateB.endDate).diffMs;
+};
+
+export const sortPrice = (priceA, priceB) => {
+  return priceB.price - priceA.price;
 };
