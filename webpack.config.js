@@ -1,17 +1,28 @@
 const path = require('path');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  //Entry - точка входа наших модулей, брать их из main.js
   entry: './src/main.js',
-  //Output - Описываем куда мы хотим положить свой бандл и опции
   output: {
+    path: path.join(__dirname, 'public/js'),
     filename: 'bundle.js',
-    path: path.join(__dirname, 'public'),
   },
   devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'public'),
+    publicPath: '/js/',
     watchContentBase: true,
-  }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  },
+  plugins: [
+    new MomentLocalesPlugin()
+  ]
 };

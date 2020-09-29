@@ -1,30 +1,45 @@
-import AbstractView from './abstract.js';
+import AbstractView from './abstract';
 
-const createFilterTemplate = () => {
-  return (
-    `<form class="trip-filters" action="#" method="get">
-      <div class="trip-filters__filter">
-        <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked="">
-        <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
-      </div>
+const createFilterItemTemplate = ({type, isChecked, isDisabled}) => (
+  `<div class="trip-filters__filter">
+    <input ${isChecked ? `checked` : ``} ${isDisabled ? `disabled` : ``}
+      class="trip-filters__filter-input visually-hidden" type="radio" name="trip-filter"
+      id="filter-${type}"
+      value="${type}">
+    <label class="trip-filters__filter-label" for="filter-${type}">${type}</label>
+  </div>`
+);
 
-      <div class="trip-filters__filter">
-        <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
-        <label class="trip-filters__filter-label" for="filter-future">Future</label>
-      </div>
+const createFilterTemplate = (filters) => (
+  `<form class="trip-filters" action="#" method="get">
+    ${Object.values(filters).map((filter) => createFilterItemTemplate(filter)).join(``)}
+    <button class="visually-hidden" type="submit">Accept filter</button>
+  </form>`
+);
 
-      <div class="trip-filters__filter">
-        <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past">
-        <label class="trip-filters__filter-label" for="filter-past">Past</label>
-      </div>
+class Filter extends AbstractView {
+  constructor(filters) {
+    super();
+    this._filters = filters;
 
-      <button class="visually-hidden" type="submit">Accept filter</button>
-    </form>`
-  );
-};
+    this._handler = {
+      filterTypeChange: this._filterTypeChangeHandler.bind(this)
+    };
+  }
 
-export default class Filter extends AbstractView {
   getTemplate() {
-    return createFilterTemplate();
+    return createFilterTemplate(this._filters);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().addEventListener(`change`, this._handler.filterTypeChange);
+  }
+
+  _filterTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this._callback.filterTypeChange(evt.target.value);
   }
 }
+
+export default Filter;

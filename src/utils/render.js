@@ -1,66 +1,75 @@
-import Abstract from "../view/abstract.js";
+import {PlaceTemplate} from '../const';
+import AbstractView from '../view/abstract';
+import moment from 'moment';
 
-export const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforened`
-};
-
-export const renderElement = (container, child, place) => {
-  if (container instanceof Abstract) {
+const render = (container, child, place = PlaceTemplate.BEFOREEND) => {
+  if (container instanceof AbstractView) {
     container = container.getElement();
   }
 
-  if (child instanceof Abstract) {
+  if (child instanceof AbstractView) {
     child = child.getElement();
   }
 
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case PlaceTemplate.BEFOREBEGIN:
+      container.before(child);
+      break;
+    case PlaceTemplate.AFTERBEGIN:
       container.prepend(child);
       break;
-    case RenderPosition.BEFOREEND:
+    case PlaceTemplate.BEFOREEND:
       container.append(child);
+      break;
+    case PlaceTemplate.AFTEREND:
+      container.after(child);
       break;
   }
 };
 
-export const renderTemplate = (container, template, place) => {
-  if (container instanceof Abstract) {
-    container = container.getElement();
-  }
-
-  container.insertAdjacentHTML(place, template);
-};
-
-export const createElement = (template) => {
+const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
   return newElement.firstChild;
 };
 
-export const replace = (newChild, oldChild) => {
-  if (oldChild instanceof Abstract) {
+const replace = (newChild, oldChild) => {
+  if (oldChild instanceof AbstractView) {
     oldChild = oldChild.getElement();
   }
 
-  if (newChild instanceof Abstract) {
+  if (newChild instanceof AbstractView) {
     newChild = newChild.getElement();
   }
 
   const parent = oldChild.parentElement;
 
-  if (parent === null || oldChild === null || newChild === null) {
+  if (!parent || !oldChild || !newChild) {
     throw new Error(`Can't replace unexisting elements`);
   }
 
   parent.replaceChild(newChild, oldChild);
 };
 
-export const remove = (component) => {
-  if (!(component instanceof Abstract)) {
+const remove = (component) => {
+  if (!component) {
+    return;
+  }
+
+  if (!(component instanceof AbstractView)) {
     throw new Error(`Can remove only components`);
   }
 
   component.getElement().remove();
   component.removeElement();
 };
+
+const createTwoDigitNumber = (number) => (number < 10 ? `0` : ``) + number;
+
+const createHumanTime = (time) => moment(time).format(`HH:mm`);
+
+const createHumanDate = (time) => moment(time).format(`DD/MM/YY`);
+
+const makeForAttribute = (string) => string.replace(/\s/g, `-`).toLowerCase();
+
+export {render, createElement, replace, remove, createTwoDigitNumber, createHumanTime, createHumanDate, makeForAttribute};
