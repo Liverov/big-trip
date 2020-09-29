@@ -2,12 +2,16 @@ export const getDateToFullFormat = (humanDate) => {
   return humanDate.toLocaleString(`en-GB`, {day: `numeric`, month: `numeric`, year: `2-digit`, hour: `numeric`, minute: `numeric`});
 };
 
-export const getDateInHoursMinutes = (date) => {
+export const getDateHoursMinutes = (date) => {
   return date.toLocaleString(`en-GB`, {hour: `numeric`, minute: `numeric`});
 };
 
-export const getDateInDayMonth = (date) => {
+export const getDateDayMonth = (date) => {
   return date.toLocaleString(`en-GB`, {day: `numeric`, month: `numeric`});
+};
+
+export const getDateDayShortMonth = (date) => {
+  return date.toLocaleString(`en-GB`, {month: `short`, day: `numeric`});
 };
 
 export const getEventDuration = (startDate, endDate) => {

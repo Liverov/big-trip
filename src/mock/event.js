@@ -3,67 +3,67 @@ import {getRandomInt} from '../utils/common.js';
 const MAX_RANDOM_DESCRIPTION = 4;
 const MAX_RANDOM_PHOTOS = 5;
 
-const waypointTypes = [
+const eventTypes = [
   {
     name: `Taxi`,
     icon: `img/icons/taxi.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Bus`,
     icon: `img/icons/bus.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Train`,
     icon: `img/icons/train.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Ship`,
     icon: `img/icons/ship.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Transport`,
     icon: `img/icons/Transport.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Drive`,
     icon: `img/icons/drive.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Flight`,
     icon: `img/icons/flight.png`,
-    waypointType: `Transfer`
+    eventTypeClass: `Transfer`
   },
   {
     name: `Check`,
     icon: `img/icons/check-in.png`,
-    waypointType: `Activity`
+    eventTypeClass: `Activity`
   },
   {
     name: `Sightseeing`,
     icon: `img/icons/sightseeing.png`,
-    waypointType: `Activity`
+    eventTypeClass: `Activity`
   },
   {
     name: `Restaurant`,
     icon: `img/icons/restaurant.png`,
-    waypointType: `Activity`
+    eventTypeClass: `Activity`
   }
 ];
 
-const waypointDestinations = [
+const eventDestinations = [
   `Amsterdam`,
   `Geneva`,
   `Chamonix`,
   `Saint-Petersburg`
 ];
 
-const waypointOffers = [
+const eventOffers = [
   {
     types: [`Sightseeing`],
     name: `Lunch in city`,
@@ -143,6 +143,9 @@ const waypointOffers = [
   }
 ];
 
+// вроде nanoid - https://github.com/ai/nanoid
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateRandomData = (data) => {
   const randomIndex = getRandomInt(0, data.length - 1);
   return data[randomIndex];
@@ -150,7 +153,7 @@ const generateRandomData = (data) => {
 
 const generateOffers = (typeName) => {
   let newOffers = [];
-  Object.values(waypointOffers).map((key) => {
+  Object.values(eventOffers).map((key) => {
     if (key.types.includes(typeName)) {
       newOffers.push(key);
     }
@@ -178,8 +181,8 @@ const generateDate = () => {
 };
 
 export const generateEvent = () => {
-  const eventType = generateRandomData(waypointTypes);
-  const destination = generateRandomData(waypointDestinations);
+  const eventType = generateRandomData(eventTypes);
+  const destination = generateRandomData(eventDestinations);
   const offers = generateOffers(eventType.name);
   const description = generateDescription();
   const photos = generatePhotos();
@@ -194,6 +197,7 @@ export const generateEvent = () => {
   }
 
   return {
+    id: generateId(),
     eventType,
     destination,
     offers,

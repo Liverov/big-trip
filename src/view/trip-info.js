@@ -21,4 +21,3 @@ export default class TripInfo extends AbstractView {
     return createTripInfoTemplate();
   }
 }
-

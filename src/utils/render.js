@@ -5,6 +5,7 @@ export const RenderPosition = {
   BEFOREEND: `beforened`
 };
 
+// Вставляем элемент child в начало/конец(place) в container
 export const renderElement = (container, child, place) => {
   if (container instanceof Abstract) {
     container = container.getElement();
@@ -16,26 +17,19 @@ export const renderElement = (container, child, place) => {
 
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(child);
+      container.prepend(child); // Вставить child в конец container
       break;
     case RenderPosition.BEFOREEND:
-      container.append(child);
+      container.append(child); // Вставить child в начало container
       break;
   }
 };
 
-export const renderTemplate = (container, template, place) => {
-  if (container instanceof Abstract) {
-    container = container.getElement();
-  }
-
-  container.insertAdjacentHTML(place, template);
-};
 
 export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
+  const newElement = document.createElement(`div`); // Создаем div
+  newElement.innerHTML = template; // Записываем в него template элемент
+  return newElement.firstChild; // Выводим первый узел(firstChild) из узла newElement
 };
 
 export const replace = (newChild, oldChild) => {
@@ -47,13 +41,13 @@ export const replace = (newChild, oldChild) => {
     newChild = newChild.getElement();
   }
 
-  const parent = oldChild.parentElement;
+  const parent = oldChild.parentElement; // Создаем ссылку на родительский элемент(parentElement) oldChild
 
   if (parent === null || oldChild === null || newChild === null) {
     throw new Error(`Can't replace unexisting elements`);
   }
 
-  parent.replaceChild(newChild, oldChild);
+  parent.replaceChild(newChild, oldChild); // Заменяем oldChild на newChild среди дочерних элементов parent
 };
 
 export const remove = (component) => {
@@ -63,4 +57,12 @@ export const remove = (component) => {
 
   component.getElement().remove();
   component.removeElement();
+};
+
+export const renderTemplate = (container, template, place) => {
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+
+  container.insertAdjacentHTML(place, template);
 };
